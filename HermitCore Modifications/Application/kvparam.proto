@@ -1,0 +1,10 @@
+syntax = "proto2";
+package kvdata;
+
+message kvparam {
+    required int32 operation = 1;
+    required string key = 2;
+    optional string value = 3;
+    optional int32 length = 4;
+    optional int32 ret = 5;
+}

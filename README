@@ -1,0 +1,55 @@
+ECE 5984 Virtualization Technologies
+Project 3: Split Device Driver and Clouds
+
+INTRODUCTION
+------------
+This project illustrates the idea of a split device driver model by 
+implementing a key-value store service for HermitCore using Amazon S3.
+The put and get functions are implemented as system calls in newlib and
+passed onto uhyve from syscalls.c by writing to a port. The uhyve.c program
+processes these requests by routing to the proxy service via a helper kv.c.
+UDP sockets are used for communication between the host program and proxy.
+Protocol Buffers, Google's data interchange format, is used to handle 
+serialization for communication between the .c and .py programs.
+The proxy uses boto, a Python interface to Amazon Web Services, to handle 
+the requests from HermitCore by establishing a connection with the key-
+value store in AWS S3.  
+
+FILES
+-----
+
+Added:
+HermitCore/Project_3/userspace.c ---------> HermitCore application
+HermitCore/Project_3/receive.py ----------> Proxy
+HermitCore/tools/kv.c --------------------> Get and put system call implementation
+
+Updated:
+HermitCore/tools/uhyve.c -----------------> Get and put call handler within uHyve
+HermitCore/kernel/syscall.c --------------> Get and put call handler within HermitCore
+
+PREREQUISITES
+------------
+This project requires installation of the following modules:
+
+ * boto (https://github.com/boto/boto)
+ * protobuf-c (https://github.com/protobuf-c/protobuf-c)
+ * protobuf (https://github.com/google/protobuf)
+
+RUNNING THE TESTS
+-----------------
+The proxy program "receive.py" is located in HermitCore/Project_3. This 
+must be started first using "python receive.py". The application program 
+"userspace.c" is located in HermitCore/Project_3. A makefile has been 
+provided to execute this using "make test". Both an interactive program 
+and a multi-threaded example have been provided. The TEST_MULTI_THREAD 
+can be set to true/false in the program to choose which part to run.
+
+ACKNOWLEDGEMENTS
+----------------
+
+* http://tamasgal.com/blog/protobuf-cpp-python.html
+* Stackoverflow forum
+* http://boto.cloudhackers.com/en/latest/s3_tut.html
+
+
+

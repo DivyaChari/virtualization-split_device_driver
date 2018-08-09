@@ -1,0 +1,33 @@
+sudo cp proxy.py /usr/local/lib/python2.7/dist-packages/proxy.py
+gcc -o try objects1.c -lpython2.7
+gcc hwserver.c -o hwserver -lzmq
+
+protoc-c --c_out=. kvparam.proto
+protoc kvparam.proto --python_out=.
+gcc -o send send.c kvparam.pb-c.c -lprotobuf-c
+
+
+make -j4 -C HermitCore/build && sudo make install -C HermitCore/build
+
+
+cd newlib/
+
+make distclean
+
+cd newlib/libc/sys/hermit
+
+/usr/local/bin/automake 
+
+cd ../../../../ 
+
+./configure --target=x86_64-hermit --prefix=/opt/hermit --disable-shared --disable-multilib --enable-lto --enable-newlib-hw-fp --enable-newlib-io-c99-formats --enable-newlib-multithreaded
+
+make -j4
+
+sudo PATH=$PATH:/opt/hermit/bin make install
+
+cd Downloads
+
+make
+
+make test
