@@ -5,7 +5,7 @@ from kvparam_pb2 import kvparam
 
 class S3KeyStore(object):
     def __init__(self):
-        self.conn = S3Connection('AKIAJRC346UMO4WSKGQQ', 'yqcm5db+n8Lqf+Sw49qSHbLCXjslT7JV+z9AJBQI')
+        self.conn = S3Connection(, )
         self.bucket = self.conn.create_bucket('virtproject3')
         
     def get(self, key):
